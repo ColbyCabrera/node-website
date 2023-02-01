@@ -7,7 +7,6 @@ http
 
     if (req.url != "/favicon.ico") {
       const filename = "." + url.pathname;
-      console.log(filename);
       fs.readFile(filename, (err, data) => {
         if (err) {
           res.writeHead(404, { "Content-Type": "text/html" });
