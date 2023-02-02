@@ -4,7 +4,13 @@ const fs = require("fs");
 http
   .createServer((req, res) => {
     if (req.url != "/favicon.ico") {
-      const filename = "." + req.url;
+      let filename;
+      if (req.url === "/") {
+        filename = "./index.html";
+      } else {
+        filename = "." + req.url;
+      }
+
       fs.readFile(filename, (err, data) => {
         if (err) {
           res.writeHead(404, { "Content-Type": "text/html" });
