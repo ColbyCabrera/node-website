@@ -1,26 +1,26 @@
-const http = require("http");
-const fs = require("fs");
+const express = require("express");
+const app = express();
+const path = require("path");
+const port = 3000;
 
-http
-  .createServer((req, res) => {
-    if (req.url != "/favicon.ico") {
-      let filename;
-      if (req.url === "/") {
-        filename = "./index.html";
-      } else {
-        filename = "." + req.url;
-      }
+app.get("/", (req, res) => {
+  const fileName = path.join(__dirname, "index.html");
+  res.sendFile(fileName);
+});
 
-      fs.readFile(filename, (err, data) => {
-        if (err) {
-          res.writeHead(404, { "Content-Type": "text/html" });
-          return res.end(fs.readFileSync("./404.html", "utf8"));
-        }
+app.get("/about", (req, res) => {
+  const fileName = path.join(__dirname, "about.html");
+  res.sendFile(fileName);
+});
 
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.write(data);
-        return res.end();
-      });
-    }
-  })
-  .listen(8080);
+app.get("/contact-me", (req, res) => {
+  const fileName = path.join(__dirname, "contact-me.html");
+  res.sendFile(fileName);
+});
+
+app.use((req, res) => {
+  const fileName = path.join(__dirname, "404.html");
+  res.sendFile(fileName);
+});
+
+app.listen(port, () => {});
